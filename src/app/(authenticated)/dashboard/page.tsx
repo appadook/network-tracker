@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,13 +17,7 @@ export default function DashboardPage() {
   const [activeApplications, setActiveApplications] = useState<Application[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    if (user) {
-      fetchData();
-    }
-  }, [user]);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setIsLoading(true);
     
     try {
@@ -55,7 +49,13 @@ export default function DashboardPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      fetchData();
+    }
+  }, [user, fetchData]);
   
   // Get status badge color for applications
   const getAppStatusColor = (status: string) => {
@@ -108,7 +108,7 @@ export default function DashboardPage() {
                     <CardTitle>No Recent Contacts</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p>You haven't added any network contacts yet.</p>
+                    <p>You haven&apos;t added any network contacts yet.</p>
                   </CardContent>
                   <CardFooter>
                     <Link href="/network">
@@ -166,7 +166,7 @@ export default function DashboardPage() {
                     <CardTitle>No Active Applications</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p>You don't have any active job applications yet.</p>
+                    <p>You don&apos;t have any active job applications yet.</p>
                   </CardContent>
                   <CardFooter>
                     <Link href="/applications">

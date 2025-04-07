@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -35,11 +35,7 @@ export default function ApplicationsPage() {
     password: '',
   });
 
-  useEffect(() => {
-    fetchApplications();
-  }, [user]);
-
-  const fetchApplications = async () => {
+  const fetchApplications = useCallback(async () => {
     if (!user) return;
     
     setIsLoading(true);
@@ -66,7 +62,11 @@ export default function ApplicationsPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [user, statusFilter]);
+
+  useEffect(() => {
+    fetchApplications();
+  }, [user, fetchApplications]);
 
   const handleAddApplication = async () => {
     if (!user) return;
@@ -78,7 +78,7 @@ export default function ApplicationsPage() {
         created_at: new Date().toISOString()
       };
       
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('applications')
         .insert([newApplication])
         .select();
@@ -86,7 +86,7 @@ export default function ApplicationsPage() {
       if (error) throw error;
       
       toast.success('Application added successfully');
-      setApplications([...(data || []), ...applications]);
+      fetchApplications(); // Refresh the list
       resetForm();
       setIsDialogOpen(false);
     } catch (error) {
@@ -99,7 +99,7 @@ export default function ApplicationsPage() {
     if (!user || !currentApp) return;
     
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('applications')
         .update(formData)
         .eq('id', currentApp.id)

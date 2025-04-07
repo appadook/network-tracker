@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { NetworkContact } from '@/types';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';

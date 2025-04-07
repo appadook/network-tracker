@@ -1,9 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -16,7 +14,6 @@ import { NetworkContactCardExpanded } from '@/components/network/NetworkContactC
 
 export default function NetworkPage() {
   const { user } = useAuth();
-  const router = useRouter();
   const [contacts, setContacts] = useState<NetworkContact[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -39,11 +36,7 @@ export default function NetworkPage() {
     action_items: ''
   });
 
-  useEffect(() => {
-    fetchContacts();
-  }, [user]);
-
-  const fetchContacts = async () => {
+  const fetchContacts = useCallback(async () => {
     if (!user) return;
     
     setIsLoading(true);
@@ -59,10 +52,11 @@ export default function NetworkPage() {
         query = query.eq('status', statusFilter);
       }
       
-      const { data, error } = await query;
+      const { error } = await query;
         
       if (error) throw error;
       
+      const { data } = await query;
       setContacts(data || []);
     } catch (error) {
       console.error('Error fetching contacts:', error);
@@ -70,7 +64,11 @@ export default function NetworkPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [user, statusFilter]);
+
+  useEffect(() => {
+    fetchContacts();
+  }, [user, fetchContacts]);
 
   const handleAddContact = async () => {
     if (!user) return;
@@ -103,7 +101,7 @@ export default function NetworkPage() {
     if (!user || !currentContact) return;
     
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('network_contacts')
         .update(formData)
         .eq('id', currentContact.id)

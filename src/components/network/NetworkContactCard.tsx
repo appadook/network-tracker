@@ -1,7 +1,5 @@
 import Link from 'next/link';
-import { MessageSquarePlus } from 'lucide-react';
 import { NetworkContact } from '@/types';
-import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { MessageGenerator } from '../message-generator/MessageGenerator';
 
