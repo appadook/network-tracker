@@ -363,17 +363,18 @@ export default function ApplicationsPage() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {isLoading ? (
           <div className="flex justify-center py-8 col-span-full">
-            <div className="animate-spin h-8 w-8 border-4 border-stone-500 border-t-transparent rounded-full"></div>
+            <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
           </div>
         ) : filteredApplications.length > 0 ? (
           filteredApplications.map((app) => (
-            <Card key={app.id} className="overflow-hidden flex flex-col">
-              <CardHeader className={`pb-2 ${app.active_apps ? 'bg-stone-50' : 'bg-gray-50'}`} 
+            <Card key={app.id} className="overflow-hidden flex flex-col border-muted hover:border-primary/50 transition-colors">
+              <CardHeader 
+                className="pb-2 bg-card"
                 onClick={() => router.push(`/applications/${app.id}`)} 
                 style={{ cursor: 'pointer' }}
               >
                 <div className="flex justify-between items-start">
-                  <CardTitle className="text-lg truncate" title={app.company}>{app.company}</CardTitle>
+                  <CardTitle className="text-lg truncate text-data-company" title={app.company}>{app.company}</CardTitle>
                   <Badge className={getStatusColor(app.status)}>
                     {app.status}
                   </Badge>
@@ -384,7 +385,7 @@ export default function ApplicationsPage() {
                       href={app.link.startsWith('http') ? app.link : `https://${app.link}`} 
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:underline"
+                      className="hover:underline text-data-link"
                       onClick={(e) => e.stopPropagation()}
                     >
                       {app.link}
@@ -397,7 +398,7 @@ export default function ApplicationsPage() {
                   {app.username && (
                     <div>
                       <p className="text-sm font-medium">Username/Email:</p>
-                      <p className="text-sm text-muted-foreground truncate">
+                      <p className="text-sm text-data-username truncate">
                         {app.username}
                       </p>
                     </div>
@@ -416,7 +417,7 @@ export default function ApplicationsPage() {
                       <p className="text-sm text-muted-foreground">
                         {app.active_apps ? 'Active Application' : 'Inactive Application'}
                       </p>
-                      <Badge variant="outline" className={app.active_apps ? 'border-green-500 text-green-700' : 'border-gray-400 text-gray-600'}>
+                      <Badge variant="outline" className={app.active_apps ? 'border-green-500 text-green-400' : 'border-gray-400 text-gray-400'}>
                         {app.active_apps ? 'Active' : 'Inactive'}
                       </Badge>
                     </div>

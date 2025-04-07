@@ -7,15 +7,23 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
+import { MessageSquarePlus } from 'lucide-react';
 
 interface MessageGeneratorProps {
   name?: string;
   company?: string;
   role?: string;
-  variant?: 'default' | 'outline' | 'secondary';
+  variant?: 'default' | 'outline' | 'secondary' | 'ghost';
+  size?: 'default' | 'compact';
 }
 
-export function MessageGenerator({ name = '', company = '', role = '', variant = 'default' }: MessageGeneratorProps) {
+export function MessageGenerator({ 
+  name = '', 
+  company = '', 
+  role = '', 
+  variant = 'default',
+  size = 'default'
+}: MessageGeneratorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
     name,
@@ -75,7 +83,18 @@ Kurtik`;
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant={variant}>Generate Messages</Button>
+        {size === 'compact' ? (
+          <Button 
+            variant={variant} 
+            size="sm" 
+            className="p-1 h-auto min-w-0"
+            title="Generate messages"
+          >
+            <MessageSquarePlus className="h-4 w-4" />
+          </Button>
+        ) : (
+          <Button variant={variant}>Generate Messages</Button>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
@@ -128,7 +147,7 @@ Kurtik`;
             </TabsList>
             <TabsContent value="linkedin" className="border p-4 rounded-md">
               <h3 className="text-sm font-medium mb-2">LinkedIn Connection Request</h3>
-              <pre className="text-sm bg-slate-50 p-3 rounded whitespace-pre-wrap">
+              <pre className="text-sm bg-muted p-3 rounded whitespace-pre-wrap text-foreground">
                 {generateLinkedInConnectMessage()}
               </pre>
               <div className="mt-4 flex justify-end">
@@ -143,7 +162,7 @@ Kurtik`;
             </TabsContent>
             <TabsContent value="followup" className="border p-4 rounded-md">
               <h3 className="text-sm font-medium mb-2">Follow-Up Message</h3>
-              <pre className="text-sm bg-slate-50 p-3 rounded whitespace-pre-wrap">
+              <pre className="text-sm bg-muted p-3 rounded whitespace-pre-wrap text-foreground">
                 {generateFollowUpMessage()}
               </pre>
               <div className="mt-4 flex justify-end">
@@ -158,7 +177,7 @@ Kurtik`;
             </TabsContent>
             <TabsContent value="recruiter" className="border p-4 rounded-md">
               <h3 className="text-sm font-medium mb-2">Recruiter Email</h3>
-              <pre className="text-sm bg-slate-50 p-3 rounded whitespace-pre-wrap">
+              <pre className="text-sm bg-muted p-3 rounded whitespace-pre-wrap text-foreground">
                 {generateRecruiterEmail()}
               </pre>
               <div className="mt-4 flex justify-end">

@@ -106,10 +106,10 @@ export default function ContactDetailPage({ params }: ContactDetailPageProps) {
     <div className="max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-6">
         <div>
-          <Link href="/network" className="text-sm text-stone-500 hover:text-stone-800 flex items-center gap-1">
+          <Link href="/network" className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1">
             ← Back to Network
           </Link>
-          <h1 className="text-3xl font-bold mt-2">{contact.name}</h1>
+          <h1 className="text-3xl font-bold mt-2 text-data-name">{contact.name}</h1>
         </div>
         <div className="flex items-center gap-2">
           <MessageGenerator 
@@ -124,7 +124,7 @@ export default function ContactDetailPage({ params }: ContactDetailPageProps) {
         </div>
       </div>
       
-      <Card className="mb-6">
+      <Card className="mb-6 border-muted">
         <CardHeader>
           <CardTitle>Professional Details</CardTitle>
           <CardDescription>Information about their professional background</CardDescription>
@@ -132,15 +132,15 @@ export default function ContactDetailPage({ params }: ContactDetailPageProps) {
         <CardContent className="grid gap-6 md:grid-cols-2">
           <div>
             <h3 className="font-medium text-sm">Company</h3>
-            <p>{contact.company || 'Not specified'}</p>
+            <p className="text-data-company">{contact.company || 'Not specified'}</p>
           </div>
           <div>
             <h3 className="font-medium text-sm">Role</h3>
-            <p>{contact.role || 'Not specified'}</p>
+            <p className="text-data-role">{contact.role || 'Not specified'}</p>
           </div>
           <div>
             <h3 className="font-medium text-sm">Location</h3>
-            <p>{contact.location || 'Not specified'}</p>
+            <p className="text-data-location">{contact.location || 'Not specified'}</p>
           </div>
           <div>
             <h3 className="font-medium text-sm">LinkedIn Profile</h3>
@@ -149,7 +149,7 @@ export default function ContactDetailPage({ params }: ContactDetailPageProps) {
                 href={contact.linkedin_profile.startsWith('http') ? contact.linkedin_profile : `https://${contact.linkedin_profile}`} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:underline"
+                className="text-data-link hover:underline"
               >
                 View Profile
               </a>
@@ -160,7 +160,7 @@ export default function ContactDetailPage({ params }: ContactDetailPageProps) {
         </CardContent>
       </Card>
       
-      <Card className="mb-6">
+      <Card className="mb-6 border-muted">
         <CardHeader>
           <CardTitle>Contact Timeline</CardTitle>
           <CardDescription>History of interactions</CardDescription>
@@ -168,16 +168,16 @@ export default function ContactDetailPage({ params }: ContactDetailPageProps) {
         <CardContent className="grid gap-6 md:grid-cols-2">
           <div>
             <h3 className="font-medium text-sm">First Contact</h3>
-            <p>{contact.date_of_first_contact || 'Not recorded'}</p>
+            <p className="text-data-date">{contact.date_of_first_contact || 'Not recorded'}</p>
           </div>
           <div>
             <h3 className="font-medium text-sm">Second Contact</h3>
-            <p>{contact.second_contact || 'Not recorded'}</p>
+            <p className="text-data-date">{contact.second_contact || 'Not recorded'}</p>
           </div>
         </CardContent>
       </Card>
       
-      <Card className="mb-6">
+      <Card className="mb-6 border-muted">
         <CardHeader>
           <CardTitle>Notes & Action Items</CardTitle>
           <CardDescription>Additional information and next steps</CardDescription>
@@ -185,11 +185,11 @@ export default function ContactDetailPage({ params }: ContactDetailPageProps) {
         <CardContent className="grid gap-6">
           <div>
             <h3 className="font-medium text-sm">Notes</h3>
-            <p className="whitespace-pre-wrap">{contact.notes || 'No notes recorded'}</p>
+            <p className="whitespace-pre-wrap text-data-notes">{contact.notes || 'No notes recorded'}</p>
           </div>
           <div>
             <h3 className="font-medium text-sm">Action Items</h3>
-            <p className="whitespace-pre-wrap">{contact.action_items || 'No action items recorded'}</p>
+            <p className="whitespace-pre-wrap text-data-notes">{contact.action_items || 'No action items recorded'}</p>
           </div>
         </CardContent>
         <CardFooter className="flex justify-end gap-2">

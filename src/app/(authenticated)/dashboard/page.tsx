@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { supabase } from '@/lib/supabase';
 import { NetworkContact, Application } from '@/types';
 import { MessageGenerator } from '@/components/message-generator/MessageGenerator';
+import { NetworkContactCard } from '@/components/network/NetworkContactCard';
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -56,26 +57,17 @@ export default function DashboardPage() {
     }
   };
   
-  // Get status badge color for network contacts
-  const getContactStatusColor = (status: string) => {
-    switch(status) {
-      case 'Active': return 'bg-green-100 text-green-800';
-      case 'Follow-up': return 'bg-blue-100 text-blue-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
-  };
-  
   // Get status badge color for applications
   const getAppStatusColor = (status: string) => {
     const statusMap: Record<string, string> = {
-      'Applied': 'bg-blue-100 text-blue-800',
-      'Interview': 'bg-purple-100 text-purple-800',
-      'Offer': 'bg-green-100 text-green-800',
-      'Rejected': 'bg-red-100 text-red-800',
-      'No Response': 'bg-gray-100 text-gray-800'
+      'Applied': 'bg-blue-700/20 text-blue-400',
+      'Interview': 'bg-purple-700/20 text-purple-400',
+      'Offer': 'bg-green-700/20 text-green-400',
+      'Rejected': 'bg-red-700/20 text-red-400',
+      'No Response': 'bg-gray-700/20 text-gray-400'
     };
     
-    return statusMap[status] || 'bg-gray-100 text-gray-800';
+    return statusMap[status] || 'bg-gray-700/20 text-gray-400';
   };
 
   return (
@@ -92,7 +84,7 @@ export default function DashboardPage() {
       
       {isLoading ? (
         <div className="flex justify-center py-8">
-          <div className="animate-spin h-8 w-8 border-4 border-stone-500 border-t-transparent rounded-full"></div>
+          <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
         </div>
       ) : (
         <>
@@ -108,31 +100,10 @@ export default function DashboardPage() {
             <div className="grid gap-4 md:grid-cols-3">
               {recentContacts.length > 0 ? (
                 recentContacts.map(contact => (
-                  <Card key={contact.id}>
-                    <CardHeader className="pb-2">
-                      <div className="flex justify-between items-start">
-                        <CardTitle className="text-lg">{contact.name}</CardTitle>
-                        <Badge className={getContactStatusColor(contact.status)}>
-                          {contact.status}
-                        </Badge>
-                      </div>
-                      <CardDescription>{contact.company} • {contact.role}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="pb-2">
-                      <p className="text-sm">
-                        <span className="font-medium">Location:</span> {contact.location || 'N/A'}
-                      </p>
-                      <p className="text-sm">
-                        <span className="font-medium">First Contact:</span> {contact.date_of_first_contact || 'N/A'}
-                      </p>
-                    </CardContent>
-                    <CardFooter>
-                      <Link href="/network" className="text-sm text-primary hover:underline">View Details</Link>
-                    </CardFooter>
-                  </Card>
+                  <NetworkContactCard key={contact.id} contact={contact} />
                 ))
               ) : (
-                <Card className="col-span-3">
+                <Card className="col-span-3 border-muted">
                   <CardHeader>
                     <CardTitle>No Recent Contacts</CardTitle>
                   </CardHeader>
@@ -141,7 +112,7 @@ export default function DashboardPage() {
                   </CardContent>
                   <CardFooter>
                     <Link href="/network">
-                      <Button>Add Your First Contact</Button>
+                      <Button className="bg-primary hover:bg-primary/90 text-white">Add Your First Contact</Button>
                     </Link>
                   </CardFooter>
                 </Card>
@@ -161,10 +132,10 @@ export default function DashboardPage() {
             <div className="grid gap-4 md:grid-cols-3">
               {activeApplications.length > 0 ? (
                 activeApplications.map(app => (
-                  <Card key={app.id}>
+                  <Card key={app.id} className="bg-card border-muted hover:border-primary/50 transition-colors">
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-start">
-                        <CardTitle className="text-lg truncate" title={app.company}>
+                        <CardTitle className="text-lg truncate text-data-company" title={app.company}>
                           {app.company}
                         </CardTitle>
                         <Badge className={getAppStatusColor(app.status)}>
@@ -177,7 +148,7 @@ export default function DashboardPage() {
                             href={app.link.startsWith('http') ? app.link : `https://${app.link}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="hover:underline"
+                            className="hover:underline text-data-link"
                           >
                             {app.link}
                           </a>
@@ -185,12 +156,12 @@ export default function DashboardPage() {
                       )}
                     </CardHeader>
                     <CardFooter>
-                      <Link href="/applications" className="text-sm text-primary hover:underline">View Details</Link>
+                      <Link href={`/applications/${app.id}`} className="text-sm text-primary hover:text-primary/80 hover:underline">View Details</Link>
                     </CardFooter>
                   </Card>
                 ))
               ) : (
-                <Card className="col-span-3">
+                <Card className="col-span-3 border-muted">
                   <CardHeader>
                     <CardTitle>No Active Applications</CardTitle>
                   </CardHeader>
@@ -199,7 +170,7 @@ export default function DashboardPage() {
                   </CardContent>
                   <CardFooter>
                     <Link href="/applications">
-                      <Button>Add Your First Application</Button>
+                      <Button className="bg-primary hover:bg-primary/90 text-white">Add Your First Application</Button>
                     </Link>
                   </CardFooter>
                 </Card>

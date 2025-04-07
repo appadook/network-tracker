@@ -157,28 +157,28 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailPageP
     <div className="max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-6">
         <div>
-          <Link href="/applications" className="text-sm text-stone-500 hover:text-stone-800 flex items-center gap-1">
+          <Link href="/applications" className="text-sm text-muted-foreground hover:text-foreground flex items-center gap-1">
             ← Back to Applications
           </Link>
-          <h1 className="text-3xl font-bold mt-2">{application.company}</h1>
+          <h1 className="text-3xl font-bold mt-2 text-data-company">{application.company}</h1>
         </div>
         <div className="flex items-center gap-2">
           <Badge className={getStatusColor(application.status)}>
             {application.status}
           </Badge>
           {application.active_apps ? (
-            <Badge variant="outline" className="border-green-500 text-green-700">
+            <Badge variant="outline" className="border-green-500 text-green-400">
               Active
             </Badge>
           ) : (
-            <Badge variant="outline" className="border-gray-400 text-gray-600">
+            <Badge variant="outline" className="border-gray-400 text-gray-400">
               Inactive
             </Badge>
           )}
         </div>
       </div>
       
-      <Card className="mb-6">
+      <Card className="mb-6 border-muted">
         <CardHeader>
           <CardTitle>Application Details</CardTitle>
           <CardDescription>Information about this job application</CardDescription>
@@ -191,7 +191,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailPageP
                 href={application.link.startsWith('http') ? application.link : `https://${application.link}`} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:underline"
+                className="text-data-link hover:underline"
               >
                 {application.link}
               </a>
@@ -201,11 +201,11 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailPageP
           <div className="grid gap-6 md:grid-cols-2">
             <div>
               <h3 className="font-medium text-sm">Status</h3>
-              <p>{application.status}</p>
+              <p className="text-data-company">{application.status}</p>
             </div>
             <div>
               <h3 className="font-medium text-sm">Activity</h3>
-              <p>{application.active_apps ? 'Active Application' : 'Inactive Application'}</p>
+              <p className="text-data-company">{application.active_apps ? 'Active Application' : 'Inactive Application'}</p>
             </div>
           </div>
           
@@ -213,13 +213,13 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailPageP
             <h3 className="font-medium text-sm mb-2">Portal Credentials</h3>
             <div className="grid gap-4 md:grid-cols-2">
               <div>
-                <h4 className="text-xs text-stone-500">Username/Email</h4>
-                <p>{application.username || 'Not provided'}</p>
+                <h4 className="text-xs text-muted-foreground">Username/Email</h4>
+                <p className="text-data-username">{application.username || 'Not provided'}</p>
               </div>
               <div>
-                <h4 className="text-xs text-stone-500">Password</h4>
+                <h4 className="text-xs text-muted-foreground">Password</h4>
                 <div className="flex items-center gap-2">
-                  <p>{application.password ? '••••••••' : 'Not provided'}</p>
+                  <p className="text-muted-foreground">{application.password ? '••••••••' : 'Not provided'}</p>
                   {application.password && (
                     <Button 
                       variant="ghost" 
@@ -256,7 +256,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailPageP
         </CardFooter>
       </Card>
       
-      <Card>
+      <Card className="border-muted">
         <CardHeader>
           <CardTitle>Related Contacts</CardTitle>
           <CardDescription>Network contacts at {application.company}</CardDescription>
@@ -264,7 +264,7 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailPageP
         <CardContent>
           {isLoadingContacts ? (
             <div className="flex justify-center py-6">
-              <div className="animate-spin h-6 w-6 border-4 border-stone-300 border-t-transparent rounded-full"></div>
+              <div className="animate-spin h-6 w-6 border-4 border-primary border-t-transparent rounded-full"></div>
             </div>
           ) : relatedContacts.length > 0 ? (
             <Table>
@@ -279,8 +279,8 @@ export default function ApplicationDetailPage({ params }: ApplicationDetailPageP
               <TableBody>
                 {relatedContacts.map(contact => (
                   <TableRow key={contact.id}>
-                    <TableCell>{contact.name}</TableCell>
-                    <TableCell>{contact.role || 'N/A'}</TableCell>
+                    <TableCell className="text-data-name">{contact.name}</TableCell>
+                    <TableCell className="text-data-role">{contact.role || 'N/A'}</TableCell>
                     <TableCell>
                       <Badge className={getContactStatusColor(contact.status)}>
                         {contact.status}

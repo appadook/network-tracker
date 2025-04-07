@@ -3,9 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -13,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { supabase } from '@/lib/supabase';
 import { NetworkContact } from '@/types';
 import { toast } from 'sonner';
+import { NetworkContactCardExpanded } from '@/components/network/NetworkContactCardExpanded';
 
 export default function NetworkPage() {
   const { user } = useAuth();
@@ -394,95 +394,19 @@ export default function NetworkPage() {
         </div>
       </div>
       
-      <div className="grid gap-6">
+      <div className="grid gap-4">
         {isLoading ? (
           <div className="flex justify-center py-8">
-            <div className="animate-spin h-8 w-8 border-4 border-stone-500 border-t-transparent rounded-full"></div>
+            <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
           </div>
         ) : filteredContacts.length > 0 ? (
           filteredContacts.map((contact) => (
-            <Card key={contact.id} className="overflow-hidden">
-              <CardHeader className="bg-stone-50 pb-4">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <CardTitle className="cursor-pointer hover:text-stone-600" onClick={() => router.push(`/network/${contact.id}`)}>{contact.name}</CardTitle>
-                    <CardDescription className="flex items-center gap-2 mt-1">
-                      {contact.company} • {contact.role}
-                    </CardDescription>
-                  </div>
-                  <Badge className={
-                    contact.status === 'Active' ? 'bg-green-100 text-green-800' :
-                    contact.status === 'Follow-up' ? 'bg-blue-100 text-blue-800' : 
-                    'bg-gray-100 text-gray-800'
-                  }>
-                    {contact.status}
-                  </Badge>
-                </div>
-              </CardHeader>
-              <CardContent className="pt-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-sm font-medium">LinkedIn:</p>
-                    <p className="text-sm text-muted-foreground truncate">
-                      {contact.linkedin_profile || 'N/A'}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium">Location:</p>
-                    <p className="text-sm text-muted-foreground">
-                      {contact.location || 'N/A'}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium">First Contact:</p>
-                    <p className="text-sm text-muted-foreground">
-                      {contact.date_of_first_contact || 'N/A'}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium">Second Contact:</p>
-                    <p className="text-sm text-muted-foreground">
-                      {contact.second_contact || 'N/A'}
-                    </p>
-                  </div>
-                  <div className="col-span-2">
-                    <p className="text-sm font-medium">Notes:</p>
-                    <p className="text-sm text-muted-foreground">
-                      {contact.notes || 'No notes provided.'}
-                    </p>
-                  </div>
-                  <div className="col-span-2">
-                    <p className="text-sm font-medium">Action Items:</p>
-                    <p className="text-sm text-muted-foreground">
-                      {contact.action_items || 'No action items.'}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex justify-end gap-2 mt-4">
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => router.push(`/network/${contact.id}`)}
-                  >
-                    View Details
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => startEdit(contact)}
-                  >
-                    Edit
-                  </Button>
-                  <Button 
-                    variant="destructive" 
-                    size="sm"
-                    onClick={() => handleDeleteContact(contact.id)}
-                  >
-                    Delete
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+            <NetworkContactCardExpanded 
+              key={contact.id} 
+              contact={contact} 
+              onEdit={startEdit}
+              onDelete={handleDeleteContact}
+            />
           ))
         ) : (
           <div className="text-center py-12 border rounded-lg">
