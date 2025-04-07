@@ -54,20 +54,20 @@ Kurtik`;
   };
 
   const generateRecruiterEmail = () => {
-    return `Subject: Interest in Opportunities at ${formData.company}
+    return `Subject: Recently Applied for ${formData.role || 'Position'} at ${formData.company}
 
-Dear ${formData.name},
+    Dear ${formData.name},
 
-I hope this email finds you well. My name is Kurtik, and I'm reaching out because I'm extremely interested in career opportunities at ${formData.company}.
+    I hope this email finds you well. My name is Kurtik, and I'm reaching out regarding my recent application for ${formData.role ? `the ${formData.role} position` : 'a position'} at ${formData.company}.
 
-I am a [Your Position/Background] with experience in [Your Key Skills/Experience] and I believe my background would be a great fit for ${formData.company}${formData.role ? `, particularly for roles like ${formData.role}` : ''}.
+    I am a Senior Economics and Computer Science double major from Union College, NY with strong skills in data analytics, data engineering, business intelligence, and software development. I believe my interdisciplinary background would be a great fit for ${formData.company} and the role I've applied for.
 
-Would it be possible to schedule a brief conversation to discuss potential opportunities? I'd love to learn more about what you're looking for in candidates.
+    I'm particularly excited about this opportunity and would appreciate the chance to discuss how my skills and experience align with what you're looking for. Would it be possible to schedule a brief conversation?
 
-Thank you for your time and consideration.
+    Thank you for your time and consideration. 
 
-Best regards,
-Kurtik`;
+    Best regards,
+    Kurtik`;
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

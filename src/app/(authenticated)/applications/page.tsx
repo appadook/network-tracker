@@ -115,7 +115,7 @@ export default function ApplicationsPage() {
         company: formData.company,
         link: formData.link,
         active_apps: formData.active_apps,
-        status: formData.status as 'Applied' | 'Interview' | 'Offer' | 'Rejected' | 'No Response',
+        status: formData.status as  'Connected' | 'Need Referral' | 'Applied' | 'Interview' | 'Offer' | 'Rejected' | 'No Response',
         username: formData.username,
         password: formData.password
       } : a));

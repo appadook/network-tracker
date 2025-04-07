@@ -19,7 +19,7 @@ export interface Application {
   company: string;
   link: string;
   active_apps: boolean;
-  status: 'Applied' | 'Interview' | 'Offer' | 'Rejected' | 'No Response';
+  status: 'Connected' | 'Need Referral' | 'Applied' | 'Interview' | 'Offer' | 'Rejected' | 'No Response';
   username: string;
   password: string;
   created_at: string;
