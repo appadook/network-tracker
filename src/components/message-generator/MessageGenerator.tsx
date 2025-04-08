@@ -62,7 +62,7 @@ Kurtik`;
 
     I am a Senior Economics and Computer Science double major from Union College, NY with strong skills in data analytics, data engineering, business intelligence, and software development. I believe my interdisciplinary background would be a great fit for ${formData.company} and the role I've applied for.
 
-    I'm particularly excited about this opportunity and would appreciate the chance to discuss how my skills and experience align with what you're looking for. Would it be possible to schedule a brief conversation?
+    I'm particularly excited about this opportunity and would appreciate the chance to discuss how my skills and experience align with what you're looking for. Would it be possible to schedule a brief conversation? I've attached my resume for your reference along with a link to my website portfolio for more information about my work and skills.
 
     Thank you for your time and consideration. 
 
