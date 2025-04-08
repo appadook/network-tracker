@@ -41,11 +41,11 @@ export default function AuthenticatedLayout({
   return (
     <div className="flex min-h-screen flex-col">
       <MainNav />
-      <main className="flex-1 container px-4 py-6 md:py-8">
+      <main className="flex-1 w-full px-4 py-6 md:py-8">
         {children}
       </main>
-      <footer className="border-t py-6">
-        <div className="container flex flex-col items-center justify-between gap-4 md:h-10 md:flex-row">
+      <footer className="border-t py-6 w-full">
+        <div className="px-4 flex flex-col items-center justify-between gap-4 md:h-10 md:flex-row">
           <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
             &copy; {new Date().getFullYear()} NetworkApp. All rights reserved.
           </p>
