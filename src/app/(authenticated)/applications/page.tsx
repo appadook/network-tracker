@@ -186,7 +186,7 @@ export default function ApplicationsPage() {
   };
 
   const handleStatusChange = (value: string) => {
-    setFormData({ ...formData, status: value as 'Applied' | 'Interview' | 'Offer' | 'Rejected' | 'No Response' });
+    setFormData({ ...formData, status: value as 'Connected' | 'Need Referral' |'Applied' | 'Interview' | 'Offer' | 'Rejected' | 'No Response' });
   };
   
   const filteredApplications = applications.filter(app => {
@@ -273,7 +273,8 @@ export default function ApplicationsPage() {
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Applied">Applied</SelectItem>
+                      <SelectItem value="Connected">Connected</SelectItem>  
+                      <SelectItem value="Need Referal">Need Referal</SelectItem>
                       <SelectItem value="Interview">Interview</SelectItem>
                       <SelectItem value="Offer">Offer</SelectItem>
                       <SelectItem value="Rejected">Rejected</SelectItem>
@@ -350,6 +351,8 @@ export default function ApplicationsPage() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Statuses</SelectItem>
+              <SelectItem value="Applied">Conneceted</SelectItem>
+              <SelectItem value="Applied">Need Referal</SelectItem>
               <SelectItem value="Applied">Applied</SelectItem>
               <SelectItem value="Interview">Interview</SelectItem>
               <SelectItem value="Offer">Offer</SelectItem>
