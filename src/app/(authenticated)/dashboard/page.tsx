@@ -17,9 +17,9 @@ import { toast } from 'sonner';
 import { Edit } from 'lucide-react';
 
 // Helper function to get formatted date string (YYYY-MM-DD) for input fields
-const getFormattedDate = (date: Date) => {
-  return date.toISOString().split('T')[0];
-};
+// const getFormattedDate = (date: Date) => {
+//   return date.toISOString().split('T')[0];
+// };
 
 export default function DashboardPage() {
   const { user } = useAuth();
