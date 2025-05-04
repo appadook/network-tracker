@@ -40,6 +40,19 @@ Best regards,
 Kurtik`;
   };
 
+  const generateAlumniConnectMessage = () => {
+    return `Hi ${formData.name},
+
+I hope this message finds you well. I noticed we're both alumni from Union College and I currently see you're ${formData.role ? `working as a ${formData.role}` : 'working'} at ${formData.company}.
+
+I'd love to connect and learn more about your professional journey since graduation. I'm particularly interested in hearing about your experience in the industry and would appreciate any insights you might have.
+
+Looking forward to connecting!
+
+Best regards,
+Kurtik`;
+  };
+
   const generateFollowUpMessage = () => {
     return `Hi ${formData.name},
 
@@ -140,8 +153,9 @@ Kurtik`;
           </div>
           
           <Tabs defaultValue="linkedin" className="w-full">
-            <TabsList className="grid grid-cols-3 mb-4">
+            <TabsList className="grid grid-cols-4 mb-4">
               <TabsTrigger value="linkedin">LinkedIn Connect</TabsTrigger>
+              <TabsTrigger value="alumni">Alumni Connect</TabsTrigger>
               <TabsTrigger value="followup">Follow-Up</TabsTrigger>
               <TabsTrigger value="recruiter">Recruiter Email</TabsTrigger>
             </TabsList>
@@ -155,6 +169,21 @@ Kurtik`;
                   variant="outline" 
                   size="sm"
                   onClick={() => copyToClipboard(generateLinkedInConnectMessage())}
+                >
+                  Copy to Clipboard
+                </Button>
+              </div>
+            </TabsContent>
+            <TabsContent value="alumni" className="border p-4 rounded-md">
+              <h3 className="text-sm font-medium mb-2">Alumni Connection Request</h3>
+              <pre className="text-sm bg-muted p-3 rounded whitespace-pre-wrap text-foreground">
+                {generateAlumniConnectMessage()}
+              </pre>
+              <div className="mt-4 flex justify-end">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => copyToClipboard(generateAlumniConnectMessage())}
                 >
                   Copy to Clipboard
                 </Button>

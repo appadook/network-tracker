@@ -154,4 +154,8 @@
   body {
     @apply bg-background text-foreground;
   }
+  /* Make calendar icon in date inputs visible */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
 }

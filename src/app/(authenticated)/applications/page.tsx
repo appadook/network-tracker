@@ -363,7 +363,7 @@ export default function ApplicationsPage() {
         </div>
       </div>
       
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {isLoading ? (
           <div className="flex justify-center py-8 col-span-full">
             <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>

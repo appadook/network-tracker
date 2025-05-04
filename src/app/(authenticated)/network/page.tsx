@@ -12,6 +12,18 @@ import { NetworkContact } from '@/types';
 import { toast } from 'sonner';
 import { NetworkContactCardExpanded } from '@/components/network/NetworkContactCardExpanded';
 
+// Helper function to get formatted date string (YYYY-MM-DD) for input fields
+const getFormattedDate = (date: Date) => {
+  return date.toISOString().split('T')[0];
+};
+
+// Helper function to get date a week from provided date
+const getDateOneWeekAhead = (date: Date) => {
+  const newDate = new Date(date);
+  newDate.setDate(date.getDate() + 7);
+  return newDate;
+};
+
 export default function NetworkPage() {
   const { user } = useAuth();
   const [contacts, setContacts] = useState<NetworkContact[]>([]);
@@ -176,6 +188,10 @@ export default function NetworkPage() {
   };
 
   const resetForm = () => {
+    // Get current date for "First Contact" and a week from today for "Second Contact"
+    const today = new Date();
+    const nextWeek = getDateOneWeekAhead(today);
+    
     setFormData({
       name: '',
       status: 'Active',
@@ -183,8 +199,8 @@ export default function NetworkPage() {
       role: '',
       linkedin_profile: '',
       location: '',
-      date_of_first_contact: '',
-      second_contact: '',
+      date_of_first_contact: getFormattedDate(today),
+      second_contact: getFormattedDate(nextWeek),
       notes: '',
       action_items: ''
     });
@@ -221,7 +237,10 @@ export default function NetworkPage() {
             Manage your professional connections and follow-ups.
           </p>
         </div>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <Dialog open={isDialogOpen} onOpenChange={(open) => {
+          setIsDialogOpen(open);
+          if (open && !isEditMode) resetForm();
+        }}>
           <DialogTrigger asChild>
             <Button 
               onClick={() => {
@@ -299,6 +318,7 @@ export default function NetworkPage() {
                     name="linkedin_profile" 
                     value={formData.linkedin_profile} 
                     onChange={handleInputChange} 
+                    placeholder="linkedin.com/in/profile"
                   />
                 </div>
                 <div className="grid gap-2">
@@ -308,6 +328,7 @@ export default function NetworkPage() {
                     name="location" 
                     value={formData.location} 
                     onChange={handleInputChange} 
+                    placeholder="City, State/Country"
                   />
                 </div>
               </div>
@@ -323,7 +344,7 @@ export default function NetworkPage() {
                   />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="second_contact">Second Contact Date</Label>
+                  <Label htmlFor="second_contact">Follow-up Date</Label>
                   <Input 
                     id="second_contact" 
                     name="second_contact" 
@@ -340,6 +361,7 @@ export default function NetworkPage() {
                   name="notes" 
                   value={formData.notes} 
                   onChange={handleInputChange} 
+                  placeholder="Details about the contact, conversations, etc."
                 />
               </div>
               <div className="grid gap-2">
@@ -349,6 +371,7 @@ export default function NetworkPage() {
                   name="action_items" 
                   value={formData.action_items} 
                   onChange={handleInputChange} 
+                  placeholder="Next steps, follow-up tasks, etc."
                 />
               </div>
             </div>
@@ -392,7 +415,7 @@ export default function NetworkPage() {
         </div>
       </div>
       
-      <div className="grid gap-4">
+      <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {isLoading ? (
           <div className="flex justify-center py-8">
             <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
@@ -407,7 +430,7 @@ export default function NetworkPage() {
             />
           ))
         ) : (
-          <div className="text-center py-12 border rounded-lg">
+          <div className="text-center py-12 border rounded-lg col-span-full">
             <h3 className="text-lg font-medium">No contacts found</h3>
             <p className="text-muted-foreground mt-1">
               {searchQuery || statusFilter
